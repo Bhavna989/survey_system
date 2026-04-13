@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Survey</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; }
+    nav { background: #1e293b; color: white; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; }
+    nav h1 { font-size: 20px; }
+    nav a { color: white; text-decoration: none; margin-left: 16px; padding: 8px 16px; background: rgba(255,255,255,0.2); border-radius: 6px; }
+    .container { max-width: 600px; margin: 60px auto; padding: 0 24px; }
+    .card { background: white; padding: 36px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+    h2 { margin-bottom: 24px; color: #333; }
+    label { display: block; margin-bottom: 6px; font-weight: 600; color: #555; }
+    input[type=text], input[type=file] { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 20px; font-size: 15px; }
+    button { width: 100%; padding: 12px; background: #1e293b; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+    .error { background: #fee2e2; color: #dc2626; padding: 12px; border-radius: 8px; margin-bottom: 16px; }
+    .success { background: #d1fae5; color: #065f46; padding: 12px; border-radius: 8px; margin-bottom: 16px; }
+    .hint { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-top: 24px; font-size: 14px; color: #555; }
+    .hint code { background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+  </style>
+</head>
+<body>
+<nav>
+  <h1> Survey Admin</h1>
+  <a href="/git_backend/survey_system/public/index.php/admin/dashboard">← Dashboard</a>
+</nav>
+<div class="container">
+  <div class="card">
+    <h2> Upload New Survey</h2>
+    {% if error %}<div class="error">⚠ {{ error }}</div>{% endif %}
+    {% if success %}<div class="success"> {{ success }}</div>{% endif %}
+    <form method="POST" action="/git_backend/survey_system/public/index.php/admin/upload" enctype="multipart/form-data">
+      <label>Survey Topic Name</label>
+      <input type="text" name="topic_name" required placeholder="e.g. Computer Science Basics">
+      <label>CSV File</label>
+      <input type="file" name="csv_file" accept=".csv" required>
+      <button type="submit"> Upload & Generate Survey</button>
+    </form>
+    <div class="hint">
+      <strong>CSV Format:</strong><br><br>
+      Each row: <code>Question, CorrectAnswer, WrongOption1, WrongOption2, ...</code><br><br>
+      Example:<br>
+      <code>CPU stands for?,Central Processing Unit,Control Processing Unit,Core Processing Unit</code>
+    </div>
+  </div>
+</div>
+</body>
+</html>

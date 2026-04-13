@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 360px; }
+    h2 { text-align: center; margin-bottom: 24px; color: #333; }
+    label { display: block; margin-bottom: 6px; font-weight: 600; color: #555; }
+    input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 18px; font-size: 15px; }
+    button { width: 100%; padding: 12px; background: #1e293b; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+    button:hover { background: #1e293b; }
+    .error { background: #fee2e2; color: #dc2626; padding: 10px; border-radius: 8px; margin-bottom: 16px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2> Admin Login</h2>
+    {% if error %}<div class="error">{{ error }}</div>{% endif %}
+    <form method="POST" action="/git_backend/survey_system/public/index.php/admin/login">
+      <label>Username</label>
+      <input type="text" name="username" required placeholder="admin">
+      <label>Password</label>
+      <input type="password" name="password" required placeholder="••••••••">
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</body>
+</html>

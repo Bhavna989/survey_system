@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Survey Results</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; }
+    nav { background: #1e293b; color: white; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; }
+    nav a { color: white; text-decoration: none; padding: 8px 16px; background: rgba(255,255,255,0.2); border-radius: 6px; }
+    .container { max-width: 1100px; margin: 40px auto; padding: 0 24px; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    h2 { color: #333; }
+    .dl-btn { background: #22c55e; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); font-size: 14px; }
+    th { background: #1e293b; color: white; padding: 12px 14px; text-align: left; }
+    td { padding: 12px 14px; border-bottom: 1px solid #f0f0f0; }
+    .correct { color: #16a34a; font-weight: 600; }
+    .wrong { color: #dc2626; }
+    .score { font-weight: 700; color: #1e293b; }
+    .empty { text-align: center; padding: 40px; color: #999; background: white; border-radius: 12px; }
+  </style>
+</head>
+<body>
+<nav>
+  <h1> {{ survey.topic_name }} — Results</h1>
+  <a href="/git_backend/survey_system/public/index.php/admin/dashboard">← Dashboard</a>
+</nav>
+<div class="container">
+  <div class="header">
+    <h2>{{ responses|length }} Response(s)</h2>
+    <a class="dl-btn" href="/git_backend/survey_system/public/index.php/admin/download/{{ survey.id }}">⬇ Download CSV</a>
+  </div>
+  {% if responses is empty %}
+    <div class="empty">No responses yet.</div>
+  {% else %}
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Submitted</th>
+        <th>Score</th>
+        {% for q in questions %}<th>{{ q.question_text|slice(0,40) }}…</th>{% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+    {% for r in responses %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ r.submitted_at }}</td>
+        <td class="score">{{ r.score }} / {{ questions|length }}</td>
+        {% for q in questions %}
+          {% set ans = r.answers[q.id] ?? 'N/A' %}
+          <td class="{{ ans == q.correct_answer ? 'correct' : 'wrong' }}">{{ ans }}</td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</div>
+</body>
+</html>
